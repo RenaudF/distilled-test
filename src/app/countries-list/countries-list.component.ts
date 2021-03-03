@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CountriesService } from '../services/countries.service';
+import { FlagsService } from '../services/flags.service';
 
 @Component({
   selector: 'app-countries-list',
@@ -7,6 +8,8 @@ import { CountriesService } from '../services/countries.service';
   styleUrls: ['./countries-list.component.scss'],
 })
 export class CountriesListComponent {
-  countries$ = this.countriesService.countries$;
-  constructor(private countriesService: CountriesService) {}
+  constructor(
+    public countriesService: CountriesService,
+    public flagsService: FlagsService
+  ) {}
 }
