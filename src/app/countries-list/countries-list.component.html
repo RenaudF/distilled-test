@@ -1,7 +1,17 @@
 <h1>Countries list</h1>
 <div *ngFor="let country of countriesService.countries$ | async">
-  <span>{{ country.name }}</span>
   <ng-container *ngIf="flagsService.flag$Map$ | async as flag$Map">
     <img [src]="flag$Map[country.alpha3Code] | async" />
   </ng-container>
+  <div>
+    <h2>{{ country.name }}</h2>
+    <ul>
+      <li>
+        <b>capital:</b>&nbsp;<span>{{ country.capital }}</span>
+      </li>
+      <li>
+        <b>population:</b>&nbsp;<span>{{ country.population }}</span>
+      </li>
+    </ul>
+  </div>
 </div>
