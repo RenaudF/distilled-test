@@ -3,9 +3,7 @@
   *ngFor="let country of countriesService.countries$ | async"
   (click)="router.navigateByUrl(country.alpha3Code)"
 >
-  <ng-container *ngIf="flagsService.flag$Map$ | async as flag$Map">
-    <img [src]="flag$Map[country.alpha3Code] | async" />
-  </ng-container>
+  <img [src]="flagsService.getFlag$(country.alpha3Code) | async" />
   <div>
     <h2>{{ country.name }}</h2>
     <ul>
