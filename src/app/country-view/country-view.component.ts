@@ -5,12 +5,7 @@ import { FlagsService } from '../services/flags.service';
 import { Currency } from '../models/currency';
 import { Language } from '../models/language';
 import { map, shareReplay } from 'rxjs/operators';
-import { Country } from '../models/country';
-import { Observable } from 'rxjs';
-
-interface CountryRoute extends ActivatedRoute {
-  data: Observable<{ country: Country }>;
-}
+import { CountryRoute } from '../services/country.resolver';
 
 @Component({
   selector: 'app-country-view',

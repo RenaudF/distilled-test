@@ -3,14 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { filter, map, shareReplay } from 'rxjs/operators';
 import { Country } from '../models/country';
 import { Observable } from 'rxjs';
+import { isDefined } from '../utils';
 
-const isDefined = <T>(test: T | undefined): test is T => {
-  return test !== undefined;
-};
+const compare = (alpha3Code: string) => (country: Country) =>
+  country.alpha3Code === alpha3Code;
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class CountriesService {
   public countries$ = this.http
     .get<Country[]>('https://restcountries.eu/rest/v2/all')
@@ -18,9 +16,7 @@ export class CountriesService {
 
   getCountry$(alpha3Code: string): Observable<Country> {
     return this.countries$.pipe(
-      map((countries) =>
-        countries.find((country) => country.alpha3Code === alpha3Code)
-      ),
+      map((countries) => countries.find(compare(alpha3Code))),
       filter(isDefined),
       shareReplay(1)
     );

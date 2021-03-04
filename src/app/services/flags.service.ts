@@ -2,12 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  map,
-  shareReplay,
-  switchMap,
-} from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { CountriesService } from './countries.service';
 
 const sanitize = (sanitizer: DomSanitizer) => (svg: string) => {
@@ -16,23 +11,21 @@ const sanitize = (sanitizer: DomSanitizer) => (svg: string) => {
   return sanitizer.bypassSecurityTrustResourceUrl(url);
 };
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class FlagsService {
   private cache: Record<string, Observable<SafeResourceUrl>> = {};
 
   getFlag$(alpha3Code: string): Observable<SafeResourceUrl> {
-    this.cache[alpha3Code] =
-      this.cache[alpha3Code] ||
-      this.countriesService.getCountry$(alpha3Code).pipe(
-        distinctUntilChanged(),
-        switchMap((country) =>
-          this.http.get(country.flag, { responseType: 'text' })
-        ),
-        map(sanitize(this.sanitizer)),
-        shareReplay(1)
-      );
+    if (!this.cache[alpha3Code])
+      this.cache[alpha3Code] = this.countriesService
+        .getCountry$(alpha3Code)
+        .pipe(
+          switchMap((country) =>
+            this.http.get(country.flag, { responseType: 'text' })
+          ),
+          map(sanitize(this.sanitizer)),
+          shareReplay(1)
+        );
     return this.cache[alpha3Code];
   }
 
