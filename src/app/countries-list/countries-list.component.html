@@ -1,10 +1,13 @@
 <h1>Countries list</h1>
 <div
+  class="country-card"
   *ngFor="let country of countriesService.countries$ | async"
   (click)="router.navigateByUrl(country.alpha3Code)"
 >
-  <img [src]="flagsService.getFlag$(country.alpha3Code) | async" />
-  <div>
+  <div class="image-container">
+    <img [src]="flagsService.getFlag$(country.alpha3Code) | async" />
+  </div>
+  <div class="country-details">
     <h2>{{ country.name }}</h2>
     <ul>
       <li>

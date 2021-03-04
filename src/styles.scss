@@ -3,3 +3,11 @@ img {
   box-shadow: 0 0 8px 10px #f3f3f3;
   object-fit: fill;
 }
+
+div.image-container {
+  display: flex;
+  img {
+    width: 100%;
+    height: fit-content;
+  }
+}

@@ -1,7 +1,9 @@
 <button (click)="router.navigateByUrl('/')">BACK</button>
 
-<div *ngIf="country$ | async as country">
-  <img [src]="flagsService.getFlag$(country.alpha3Code) | async" />
+<div class="country-container" *ngIf="country$ | async as country">
+  <div class="image-container">
+    <img [src]="flagsService.getFlag$(country.alpha3Code) | async" />
+  </div>
 
   <ng-container
     *ngTemplateOutlet="countryDetails; context: { $implicit: country }"
@@ -9,15 +11,18 @@
   </ng-container>
 
   <h3>Bordering countries</h3>
-  <div>
+  <div class="neighbours-container">
     <div
+      class="neighbour-container"
       *ngFor="let border of country.borders"
       (click)="router.navigateByUrl(border)"
     >
       <ng-container
         *ngIf="countriesService.getCountry$(border) | async as neighbour"
       >
-        <img [src]="flagsService.getFlag$(border) | async" />
+        <div class="image-container">
+          <img [src]="flagsService.getFlag$(border) | async" />
+        </div>
 
         <ng-container
           *ngTemplateOutlet="countryDetails; context: { $implicit: neighbour }"
