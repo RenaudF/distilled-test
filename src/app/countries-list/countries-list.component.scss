@@ -1,6 +1,10 @@
 :host > div {
   padding: 8px;
   display: flex;
+  cursor: pointer;
+  &:hover {
+    background-color: #f8f8f8;
+  }
   img {
     margin-right: 10px;
     height: 200px;

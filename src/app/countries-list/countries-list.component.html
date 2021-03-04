@@ -1,5 +1,8 @@
 <h1>Countries list</h1>
-<div *ngFor="let country of countriesService.countries$ | async">
+<div
+  *ngFor="let country of countriesService.countries$ | async"
+  (click)="router.navigateByUrl(country.alpha3Code)"
+>
   <ng-container *ngIf="flagsService.flag$Map$ | async as flag$Map">
     <img [src]="flag$Map[country.alpha3Code] | async" />
   </ng-container>

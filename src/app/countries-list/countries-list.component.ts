@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { CountriesService } from '../services/countries.service';
 import { FlagsService } from '../services/flags.service';
 
@@ -10,6 +11,7 @@ import { FlagsService } from '../services/flags.service';
 export class CountriesListComponent {
   constructor(
     public countriesService: CountriesService,
-    public flagsService: FlagsService
+    public flagsService: FlagsService,
+    public router: Router
   ) {}
 }
