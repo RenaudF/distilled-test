@@ -3,7 +3,9 @@
 <div *ngIf="country$ | async as country">
   <img [src]="flagsService.getFlag$(country.alpha3Code) | async" />
 
-  <ng-container *ngTemplateOutlet="countryDetails; context: country">
+  <ng-container
+    *ngTemplateOutlet="countryDetails; context: { $implicit: country }"
+  >
   </ng-container>
 
   <h3>Bordering countries</h3>
@@ -17,26 +19,21 @@
       >
         <img [src]="flagsService.getFlag$(border) | async" />
 
-        <ng-container *ngTemplateOutlet="countryDetails; context: neighbour">
+        <ng-container
+          *ngTemplateOutlet="countryDetails; context: { $implicit: neighbour }"
+        >
         </ng-container>
       </ng-container>
     </div>
   </div>
 </div>
 
-<ng-template
-  #countryDetails
-  let-name="name"
-  let-capital="capital"
-  let-population="population"
-  let-currencies="currencies"
-  let-languages="languages"
->
+<ng-template #countryDetails let-country>
   <ul>
-    <li>{{ name }}</li>
-    <li>capital: {{ capital }}</li>
-    <li>population: {{ population }}</li>
-    <li>currencies: {{ currencies.map(formatCurrency) }}</li>
-    <li>languages: {{ languages.map(formatLanguage) }}</li>
+    <li>{{ country.name }}</li>
+    <li>capital: {{ country.capital }}</li>
+    <li>population: {{ country.population }}</li>
+    <li>currencies: {{ country.currencies.map(formatCurrency) }}</li>
+    <li>languages: {{ country.languages.map(formatLanguage) }}</li>
   </ul>
 </ng-template>
