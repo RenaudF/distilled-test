@@ -1,20 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CountriesService } from '../services/countries.service';
 import { FlagsService } from '../services/flags.service';
 import { Currency } from '../models/currency';
 import { Language } from '../models/language';
-import {
-  distinctUntilChanged,
-  filter,
-  shareReplay,
-  switchMap,
-} from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
+import { Country } from '../models/country';
 import { Observable } from 'rxjs';
-import { isDefined } from '@angular/compiler/src/util';
 
 interface CountryRoute extends ActivatedRoute {
-  params: Observable<{ country: string }>;
+  data: Observable<{ country: Country }>;
 }
 
 @Component({
@@ -23,17 +18,15 @@ interface CountryRoute extends ActivatedRoute {
   styleUrls: ['./country-view.component.scss'],
 })
 export class CountryViewComponent {
-  country$ = this.route.params.pipe(
-    filter(isDefined),
-    distinctUntilChanged(),
-    switchMap(({ country }) => this.countriesService.getCountry$(country)),
+  country$ = this.route.data.pipe(
+    map(({ country }) => country),
     shareReplay(1)
   );
   constructor(
     public countriesService: CountriesService,
     public flagsService: FlagsService,
     public router: Router,
-    public route: CountryRoute
+    @Inject(ActivatedRoute) public route: CountryRoute
   ) {}
   formatCurrency(currency: Currency): string {
     return currency.code;
