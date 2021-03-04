@@ -33,7 +33,7 @@
     <li>{{ country.name }}</li>
     <li>capital: {{ country.capital }}</li>
     <li>population: {{ country.population }}</li>
-    <li>currencies: {{ country.currencies.map(formatCurrency) }}</li>
-    <li>languages: {{ country.languages.map(formatLanguage) }}</li>
+    <li>currencies: {{ country.currencies.map(formatCurrency).join(", ") }}</li>
+    <li>languages: {{ country.languages.map(formatLanguage).join(", ") }}</li>
   </ul>
 </ng-template>

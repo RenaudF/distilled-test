@@ -14,14 +14,23 @@
   }
   div {
     display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
     div {
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
       padding: 8px;
+      width: 180px;
       cursor: pointer;
       &:hover {
         background-color: #f8f8f8;
+      }
+      ul {
+        padding-inline-start: 20px;
+        margin-bottom: 8px;
       }
       img {
         height: 100px;
