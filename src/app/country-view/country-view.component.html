@@ -1,1 +1,42 @@
-<p>country-view works!</p>
+<button (click)="router.navigateByUrl('/')">BACK</button>
+
+<div *ngIf="country$ | async as country">
+  <img [src]="flagsService.getFlag$(country.alpha3Code) | async" />
+
+  <ng-container *ngTemplateOutlet="countryDetails; context: country">
+  </ng-container>
+
+  <h3>Bordering countries</h3>
+  <div>
+    <div
+      *ngFor="let border of country.borders"
+      (click)="router.navigateByUrl(border)"
+    >
+      <ng-container
+        *ngIf="countriesService.getCountry$(border) | async as neighbour"
+      >
+        <img [src]="flagsService.getFlag$(border) | async" />
+
+        <ng-container *ngTemplateOutlet="countryDetails; context: neighbour">
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template
+  #countryDetails
+  let-name="name"
+  let-capital="capital"
+  let-population="population"
+  let-currencies="currencies"
+  let-languages="languages"
+>
+  <ul>
+    <li>{{ name }}</li>
+    <li>capital: {{ capital }}</li>
+    <li>population: {{ population }}</li>
+    <li>currencies: {{ currencies.map(formatCurrency) }}</li>
+    <li>languages: {{ languages.map(formatLanguage) }}</li>
+  </ul>
+</ng-template>
