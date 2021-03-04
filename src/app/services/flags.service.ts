@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
+import { isDefined } from '../utils';
 import { CountriesService } from './countries.service';
 
 const sanitize = (sanitizer: DomSanitizer) => (svg: string) => {
@@ -20,6 +21,7 @@ export class FlagsService {
       this.cache[alpha3Code] = this.countriesService
         .getCountry$(alpha3Code)
         .pipe(
+          filter(isDefined),
           switchMap((country) =>
             this.http.get(country.flag, { responseType: 'text' })
           ),
